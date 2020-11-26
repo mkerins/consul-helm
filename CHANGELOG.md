@@ -1,5 +1,15 @@
 ## Unreleased
 
+FEATURES:
+* CRDs: add new CRD `IngressGateway` for configuring Consul's [ingress-gateway](https://www.consul.io/docs/agent/config-entries/ingress-gateway) config entry. [[GH-714](https://github.com/hashicorp/consul-helm/pull/714)]
+
+BUG FIXES:
+* CRDs: **(Consul Enterprise only)** change `ServiceResolver` field `failover[].namespaces` to `failover[].namespace`.
+  This will not affect existing `ServiceResolver` resources and will only update the documentation for that field.
+ 
+  If `failover[].namespaces` was used previously, it was ignored and after this change it will still be ignored.
+  If `failover[].namespace` was used previously, it worked correctly and after this change it will still work correctly. [[GH-714](https://github.com/hashicorp/consul-helm/pull/714)]
+
 ## 0.27.0 (Nov 25, 2020)
 
 IMPROVEMENTS:
