@@ -2,6 +2,7 @@
 
 FEATURES:
 * CRDs: add new CRD `IngressGateway` for configuring Consul's [ingress-gateway](https://www.consul.io/docs/agent/config-entries/ingress-gateway) config entry. [[GH-714](https://github.com/hashicorp/consul-helm/pull/714)]
+* CRDs: add new CRD `TerminatingGateway` for configuring Consul's [terminating-gateway](https://www.consul.io/docs/agent/config-entries/terminating-gateway) config entry. [[GH-715](https://github.com/hashicorp/consul-helm/pull/715)]
 
 BUG FIXES:
 * CRDs: **(Consul Enterprise only)** change `ServiceResolver` field `failover[].namespaces` to `failover[].namespace`.
