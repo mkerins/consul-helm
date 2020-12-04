@@ -392,11 +392,10 @@ server:
   #
   # ```yaml
   # extraVolumes:
-  #   - type: secret
-  #     name: consul-certs
-  #     load: false
+  # - type: 'secret'
+  #   name: 'consul-certs'
+  #   load: false
   # ```
-  #
   # Each object supports the following keys:
   #
   # - `type` - Type of the volume, must be one of "configMap" or "secret". Case sensitive.
@@ -449,7 +448,6 @@ server:
   # labels for server pod assignment, formatted as a multi-line string.
   #
   # Example:
-  #
   # ```yaml
   # nodeSelector: |
   #   beta.kubernetes.io/arch: amd64
@@ -466,11 +464,10 @@ server:
   # Extra labels to attach to the server pods. This should be a YAML map.
   #
   # Example:
-  #
   # ```yaml
   # extraLabels:
-  #   labelKey: label-value
-  #   anotherLabelKey: another-label-value
+  #   labelKey: "label-value"
+  #   anotherLabelKey: "another-label-value"
   # ```
   #
   # @type: map
@@ -513,7 +510,7 @@ server:
 # or `global.acls.manageSystemACLs` to true (requires consul-k8s >= 0.14.0).
 externalServers:
   # If true, the Helm chart will be configured to talk to the external servers.
-  # If setting this to true, you must also set `server.enabled` to false.
+  #  If setting this to true, you must also set `server.enabled` to false.
   enabled: false
 
   # An array of external Consul server hosts that are used to make
@@ -621,7 +618,6 @@ client:
   # isn't directly exposed by the chart.
   #
   # Example:
-  #
   # ```yaml
   # extraConfig: |
   #   {
@@ -646,11 +642,10 @@ client:
   #
   # ```yaml
   # extraVolumes:
-  #   - type: secret
-  #     name: consul-certs
-  #     load: false
+  # - type: 'secret'
+  #   name: 'consul-certs'
+  #   load: false
   # ```
-  #
   # Each object supports the following keys:
   #
   # - `type` - Type of the volume, must be one of "configMap" or "secret". Case sensitive.
@@ -670,18 +665,14 @@ client:
   # in a PodSpec.
   # The example below will allow Client pods to run on every node
   # regardless of taints
-  #
-  # ```yaml
   # tolerations: |
-  #   - operator: Exists
-  # ```
+  #   - operator: "Exists"
   tolerations: ""
 
   # nodeSelector labels for client pod assignment, formatted as a multi-line string.
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
   #
   # Example:
-  #
   # ```yaml
   # nodeSelector: |
   #   beta.kubernetes.io/arch: amd64
@@ -693,7 +684,6 @@ client:
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   #
   # Example:
-  #
   # ```yaml
   # affinity: |
   #   nodeAffinity:
@@ -747,14 +737,12 @@ client:
   # This should be a multi-line string mapping directly to the updateStrategy
   #
   # Example:
-  #
   # ```yaml
-  # updateStrategy: |
-  #   rollingUpdate:
-  #     maxUnavailable: 5
-  #   type: RollingUpdate
+  #  updateStrategy: |
+  #    rollingUpdate:
+  #      maxUnavailable: 5
+  #    type: RollingUpdate
   # ```
-  #
   # @type: string
   updateStrategy: null
 
@@ -793,7 +781,6 @@ client:
     # Useful if using an S3-compatible storage exposing a self-signed certificate.
     #
     # Example:
-    #
     # ```yaml
     # caCert: |
     #   -----BEGIN CERTIFICATE-----
@@ -865,10 +852,9 @@ ui:
     # Annotations to apply to the UI service.
     #
     # Example:
-    #
     # ```yaml
-    # annotations: |
-    #   'annotation-key': annotation-value
+    #   annotations: |
+    #     "annotation-key": "annotation-value"
     # ```
     # @type: string
     annotations: null
@@ -921,7 +907,7 @@ syncCatalog:
   k8sPrefix: null
 
   # k8sAllowNamespaces is a list of k8s namespaces to sync the k8s services from.
-  # If a k8s namespace is not included in this list or is listed in `k8sDenyNamespaces`,
+  # If a k8s namespace is not included  in this list or is listed in `k8sDenyNamespaces`,
   # services in that k8s namespace will not be synced even if they are explicitly
   # annotated. Use `["*"]` to automatically allow all k8s namespaces.
   #
@@ -1039,7 +1025,6 @@ syncCatalog:
   # labels for catalog sync pod assignment, formatted as a multi-line string.
   #
   # Example:
-  #
   # ```yaml
   # nodeSelector: |
   #   beta.kubernetes.io/arch: amd64
@@ -1136,7 +1121,6 @@ connectInject:
   # for more details.
   #
   # Example:
-  #
   # ```yaml
   # namespaceSelector: |
   #   matchLabels:
@@ -1225,7 +1209,6 @@ connectInject:
 
   # nodeSelector labels for connectInject pod assignment, formatted as a multi-line string.
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
-  #
   # Example:
   #
   # ```yaml
@@ -1292,7 +1275,7 @@ connectInject:
     # proxyDefaults is a raw json string that will be written as the value of
     # the "config" key of the global proxy-defaults config entry.
     # See: https://www.consul.io/docs/agent/config-entries/proxy-defaults.html
-    # NOTE: Changes to this value after the chart is first installed have _no_
+    # NOTE: Changes to this value after the chart is first installed have *no*
     # effect. In order to change the proxy-defaults config after installation,
     # you must use the Consul API.
     proxyDefaults: |
@@ -1302,7 +1285,6 @@ connectInject:
     # Set default resources for sidecar proxy. If null, that resource won't
     # be set.
     # These settings can be overridden on a per-pod basis via these annotations:
-    #
     # - `consul.hashicorp.com/sidecar-proxy-cpu-limit`
     # - `consul.hashicorp.com/sidecar-proxy-cpu-request`
     # - `consul.hashicorp.com/sidecar-proxy-memory-limit`
@@ -1394,28 +1376,28 @@ meshGateway:
   wanAddress:
     # source configures where to retrieve the WAN address (and possibly port)
     # for the mesh gateway from.
-    # Can be set to either: `Service`, `NodeIP`, `NodeName` or `Static`.
+    # Can be set to either: Service, NodeIP, NodeName or Static.
     #
-    # - `Service` - Determine the address based on the service type.
+    # Service - Determine the address based on the service type.
     #
-    #   - If `service.type=LoadBalancer` use the external IP or hostname of
-    #     the service. Use the port set by `service.port`.
+    #   If service.type=LoadBalancer use the external IP or hostname of
+    #   the service. Use the port set by service.port.
     #
-    #   - If `service.type=NodePort` use the Node IP. The port will be set to
-    #     `service.nodePort` so `service.nodePort` cannot be null.
+    #   If service.type=NodePort use the Node IP. The port will be set to
+    #   service.nodePort so service.nodePort cannot be null.
     #
-    #   - If `service.type=ClusterIP` use the `ClusterIP`. The port will be set to
-    #     `service.port`.
+    #   If service.type=ClusterIP use the ClusterIP. The port will be set to
+    #   service.port.
     #
-    #   - `service.type=ExternalName` is not supported.
+    #   service.type=ExternalName is not supported.
     #
-    # - `NodeIP` - The node IP as provided by the Kubernetes downward API.
+    # NodeIP - The node IP as provided by the Kubernetes downward API.
     #
-    # - `NodeName` - The name of the node as provided by the Kubernetes downward
+    # NodeName - The name of the node as provided by the Kubernetes downward
     #   API. This is useful if the node names are DNS entries that
     #   are routable from other datacenters.
     #
-    # - `Static` - Use the address hardcoded in `meshGateway.wanAddress.static`.
+    # Static - Use the address hardcoded in meshGateway.wanAddress.static.
     source: "Service"
 
     # Port that gets registered for WAN traffic.
@@ -1448,12 +1430,11 @@ meshGateway:
     nodePort: null
 
     # Annotations to apply to the mesh gateway service.
-    #
     # Example:
     #
     # ```yaml
-    # annotations: |
-    #   'annotation-key': annotation-value
+    #   annotations: |
+    #     "annotation-key": "annotation-value"
     # ```
     # @type: string
     annotations: null
@@ -1534,12 +1515,11 @@ meshGateway:
   priorityClassName: ""
 
   # Annotations to apply to the mesh gateway deployment.
-  #
   # Example:
   #
   # ```yaml
-  # annotations: |
-  #   'annotation-key': annotation-value
+  #   annotations: |
+  #     "annotation-key": "annotation-value"
   # ```
   # @type: string
   annotations: null
@@ -1551,7 +1531,7 @@ meshGateway:
 # include both the default annotations and any additional ones defined
 # for a specific gateway.
 # Requirements: consul >= 1.8.0 and consul-k8s >= 0.16.0 if using
-# global.acls.manageSystemACLs and consul-k8s >= 0.10.0 if not.
+# global.acls.manageSystemACLs and consul-k8s  >= 0.10.0 if not.
 ingressGateways:
   # Enable ingress gateway deployment. Requires `connectInject.enabled=true`
   # and `client.enabled=true`.
@@ -1590,13 +1570,11 @@ ingressGateways:
       # Annotations to apply to the ingress gateway service. Annotations defined
       # here will be applied to all ingress gateway services in addition to any
       # service annotations defined for a specific gateway in `ingressGateways.gateways`.
-      #
       # Example:
-      #
       # ```yaml
-      # annotations: |
-      #   'annotation-key': annotation-value
-      # ```
+      #   annotations: |
+      #     "annotation-key": "annotation-value"
+      # ````
       # @type: string
       annotations: null
 
@@ -1650,18 +1628,16 @@ ingressGateways:
     # Annotations to apply to the ingress gateway deployment. Annotations defined
     # here will be applied to all ingress gateway deployments in addition to any
     # annotations defined for a specific gateway in `ingressGateways.gateways`.
-    #
     # Example:
-    #
     # ```yaml
-    # annotations: |
-    #   "annotation-key": 'annotation-value'
+    #   annotations: |
+    #     "annotation-key": "annotation-value"
     # ```
     # @type: string
     annotations: null
 
     # [Enterprise Only] `consulNamespace` defines the Consul namespace to register
-    # the gateway into. Requires `global.enableConsulNamespaces` to be true and
+    # the gateway into.  Requires `global.enableConsulNamespaces` to be true and
     # Consul Enterprise v1.7+ with a valid Consul Enterprise license.
     # Note: The Consul namespace MUST exist before the gateway is deployed.
     consulNamespace: "default"
@@ -1681,7 +1657,7 @@ ingressGateways:
 # include both the default annotations and any additional ones defined
 # for a specific gateway.
 # Requirements: consul >= 1.8.0 and consul-k8s >= 0.16.0 if using
-# global.acls.manageSystemACLs and consul-k8s >= 0.10.0 if not.
+# global.acls.manageSystemACLs and consul-k8s  >= 0.10.0 if not.
 terminatingGateways:
   # Enable terminating gateway deployment. Requires `connectInject.enabled=true`
   # and `client.enabled=true`.
@@ -1699,14 +1675,13 @@ terminatingGateways:
     # A list of extra volumes to mount. These will be exposed to Consul in the path `/consul/userconfig/<name>/`.
     #
     # Example:
-    #
     # ```yaml
     # extraVolumes:
-    #   - type: secret
-    #     name: my-secret
-    #     items: # optional items array
-    #       - key: key
-    #         path: path # secret will now mount to /consul/userconfig/my-secret/path
+    # - type: 'secret'
+    #   name: 'my-secret'
+    #   items: # optional items array
+    #     - key: key
+    #       path: path # secret will now mount to /consul/userconfig/my-secret/path
     # ```
     # @type: array<map>
     extraVolumes: []
@@ -1758,18 +1733,16 @@ terminatingGateways:
     # Annotations to apply to the terminating gateway deployment. Annotations defined
     # here will be applied to all terminating gateway deployments in addition to any
     # annotations defined for a specific gateway in `terminatingGateways.gateways`.
-    #
     # Example:
-    #
     # ```yaml
-    # annotations: |
-    #   'annotation-key': annotation-value
+    #   annotations: |
+    #     "annotation-key": "annotation-value"
     # ```
     # @type: string
     annotations: null
 
     # [Enterprise Only] `consulNamespace` defines the Consul namespace to register
-    # the gateway into. Requires `global.enableConsulNamespaces` to be true and
+    # the gateway into.  Requires `global.enableConsulNamespaces` to be true and
     # Consul Enterprise v1.7+ with a valid Consul Enterprise license.
     # Note: The Consul namespace MUST exist before the gateway is deployed.
     consulNamespace: "default"
