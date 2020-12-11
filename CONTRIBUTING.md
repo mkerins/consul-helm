@@ -389,7 +389,7 @@ generated from our `values.yaml` file.
 To generate the docs and update the `helm.mdx` file, run:
  
 ```bash
-make docs-gen consul=<path-to-consul-repo>
+make gen-docs consul=<path-to-consul-repo>
 ```
 
 Where `<path-to-consul-repo>` is the relative or absolute path to the `hashicorp/consul`
