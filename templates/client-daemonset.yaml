@@ -219,8 +219,9 @@ spec:
                 {{- end }}
                 {{- else }}
                 {{- if .Values.server.enabled }}
+                {{- $serverSerflanPort  := .Values.server.serflan.port -}}
                 {{- range $index := until (.Values.server.replicas | int) }}
-                -retry-join="${CONSUL_FULLNAME}-server-{{ $index }}.${CONSUL_FULLNAME}-server.${NAMESPACE}.svc" \
+                -retry-join="${CONSUL_FULLNAME}-server-{{ $index }}.${CONSUL_FULLNAME}-server.${NAMESPACE}.svc:{{ $serverSerflanPort }}" \
                 {{- end }}
                 {{- end }}
                 {{- end }}

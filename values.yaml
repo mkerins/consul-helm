@@ -263,6 +263,26 @@ server:
     secretName: null
     secretKey: null
 
+  # exposeGossipAndRPCPorts exposes the servers' gossip and RPC ports as
+  # hostPorts. To enable a client agent outside of the k8s cluster to join the
+  # datacenter, you would need to enable server.exposeGossipAndRPCPorts,
+  # client.exposeGossipPorts, and set server.serflan.port to a port not being
+  # used on the host. Since client.exposeGossipPorts uses the hostPort 8301,
+  # server.serflan.port must be set to something other than 8301.
+  exposeGossipAndRPCPorts: false
+
+  # serflan configures the LAN gossip port for the consul servers. By default
+  # it is 8301 and configured as a containerPort on the consul server Pods.
+  # However, if you choose to enable server.exposeGossipAndRPCPorts and
+  # client.exposeGossipPorts, that will configure the LAN gossip ports on the
+  # servers and clients to be hostPorts, so if you are running clients and
+  # servers in the same node the ports will conflict if they are both 8301.
+  # When you enable server.exposeGossipAndRPCPorts and
+  # client.exposeGossipPorts, you must change this from the default to an
+  # unused port on the host.
+  serflan:
+    port: 8301
+
   # storage and storageClass are the settings for configuring stateful
   # storage for the server pods. storage should be set to the disk size of
   # the attached volume. storageClass is the class of storage which defaults
