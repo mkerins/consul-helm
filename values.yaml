@@ -2,7 +2,7 @@
 
 # Holds values that affect multiple components of the chart.
 global:
-  # The master enabled/disabled setting. If true, servers,
+  # The main enabled/disabled setting. If true, servers,
   # clients, Consul DNS and the Consul UI will be enabled. Each component can override
   # this default via its component-specific "enabled" config. If false, no components
   # will be installed by default and per-component opt-in is required, such as by
@@ -89,7 +89,7 @@ global:
     # encryption key.
     secretKey: ""
 
-  # Enables TLS (https://learn.hashicorp.com/tutorials/consul/gossip-encryption-secure)
+  # Enables TLS (https://learn.hashicorp.com/tutorials/consul/tls-encryption-secure)
   # across the cluster to verify authenticity of the Consul servers and clients.
   # Requires Consul v1.4.1+ and consul-k8s v0.16.2+
   tls:
@@ -214,7 +214,7 @@ global:
     # via mesh gateways is supported.
     # Mesh gateways and servers will be configured to allow federation.
     # Requires `global.tls.enabled`, `meshGateway.enabled` and `connectInject.enabled`
-    # to be true.
+    # to be true. Requires Consul 1.8+.
     enabled: false
 
     # If true, the chart will create a Kubernetes secret that can be imported
@@ -272,7 +272,7 @@ server:
   # for more information.
   replicas: 3
 
-  # bootstrapExpect is the number of servers that are expected to be running.
+  # The number of servers that are expected to be running.
   # It defaults to server.replicas.
   # In most cases the default should be used, however if there are more
   # servers in this datacenter than server.replicas it might make sense
@@ -346,7 +346,7 @@ server:
   # control a rolling update of Consul server agents. This value specifies the
   # partition (https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#partitions)
   # for performing a rolling update. Please read the linked Kubernetes documentation
-  # for more information.
+  # and https://www.consul.io/docs/k8s/upgrade#upgrading-consul-servers for more information.
   updatePartition: 0
 
   # This configures the PodDisruptionBudget (https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
@@ -416,7 +416,7 @@ server:
   extraVolumes: []
 
   # This value defines the affinity (https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
-  # for server pods. It defaults to allowing only a single pod on each node, which
+  # for server pods. It defaults to allowing only a single server pod on each node, which
   # minimizes risk of the cluster becoming unusable if a node is lost. If you need
   # to run more pods per node (for example, testing on Minikube), set this value
   # to `null`.
@@ -481,7 +481,7 @@ server:
   extraLabels: null
 
   # This value defines additional annotations for
-  # server pods. This should be a formatted as a multi-line string.
+  # server pods. This should be formatted as a multi-line string.
   #
   # ```yaml
   # annotations: |
@@ -504,7 +504,7 @@ server:
     # @type: string
     annotations: null
 
-  # extraEnvironmentVars is a list of extra environment variables to set within the stateful set.
+  # A list of extra environment variables to set within the stateful set.
   # These could be used to include proxy settings required for cloud auto-join
   # feature, in case kubernetes cluster is behind egress http proxies. Additionally,
   # it could be used to configure custom consul parameters.
@@ -716,7 +716,7 @@ client:
   priorityClassName: ""
 
   # This value defines additional annotations for
-  # client pods. This should be a formatted as a multi-line string.
+  # client pods. This should be formatted as a multi-line string.
   #
   # ```yaml
   # annotations: |
@@ -727,7 +727,7 @@ client:
   # @type: string
   annotations: null
 
-  # extraEnvironmentVars is a list of extra environment variables to set within the stateful set.
+  # A list of extra environment variables to set within the stateful set.
   # These could be used to include proxy settings required for cloud auto-join
   # feature, in case kubernetes cluster is behind egress http proxies. Additionally,
   # it could be used to configure custom consul parameters.
@@ -883,7 +883,7 @@ ui:
     # @type: string
     additionalSpec: null
 
-# syncCatalog will run the catalog sync process to sync K8S with Consul
+# Configure the catalog sync process to sync K8S with Consul
 # services. This can run bidirectional (default) or unidirectionally (Consul
 # to K8S or K8S to Consul only).
 #
@@ -1079,7 +1079,7 @@ syncCatalog:
   # @type: string
   consulWriteInterval: null
 
-# ConnectInject will enable the automatic Connect sidecar injector.
+# Configures the automatic Connect sidecar injector.
 connectInject:
   # True if you want to enable connect injection. Set to "-" to inherit from
   # global.enabled.
